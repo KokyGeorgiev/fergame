@@ -1,0 +1,20 @@
+div#wrapper {
+    display: flex;
+    flex-direction: column;
+}
+div#header,
+div#content,
+div#footer {
+    display: flex;
+    justify-content: space-evenly;
+    
+}
+
+.nav-menu-item {
+    display: inline-flex;
+    padding: 5px;
+    cursor: pointer;
+    background-color: #DADADA;
+    border-radius: 5px;
+    ;
+}
