@@ -1,0 +1,13 @@
+Create list of villages. Each village should have:
+    - coordinates (X,Y) - between (-100,-100) and (100,100) with the capital being at (0,0)
+    - level
+        - level 1 is village
+        - level 2 is town
+        - level 3 is fortress
+        - level 4 is capital (only starting village is a Capital)
+    - resources (% between 40 and 100 per resource, with total sum of all resources should be (number of resouces * 100 * XX%) where XX = 50 for villages, 70 for towns, 100 for fortresses)
+        - gold
+        - wood
+        - stone
+        - food
+    - discovered (boolean)

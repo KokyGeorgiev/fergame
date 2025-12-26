@@ -1,3 +1,5 @@
+/* === PAGE STRUCTURE === */
+
 div#wrapper {
     display: flex;
     flex-direction: column;
@@ -47,7 +49,7 @@ div#content {
     padding: 10px;
 }
 
-/* theme */
+/* === THEME === */
 
 .color-palette div {
     margin: 5px;
