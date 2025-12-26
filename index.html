@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="css/map.css">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
+
 <body>
     <main>
         <div id="wrapper" class="color-1">
@@ -19,20 +21,40 @@
             </div>
             <div id="content">
                 <div class="page-content color-4">
-                    Welcome to the game!<br/>
+                    Welcome to the game!<br />
                     HOME PAGE
-                    <br/><br/>
+                    <br /><br />
                     <div class="content-card">
                         <div class="content-card-title color-2">
                             What is Lorem Ipsum?
                         </div>
                         <div class="content-card-body color-5">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type specimen book. It has survived not only five
+                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing software like Aldus PageMaker including
+                            versions of Lorem Ipsum.
                         </div>
                     </div>
                 </div>
                 <div class="page-content color-4">
-                    <div id="map"></div>
+                    <div id="map-container">
+                        <div id="map-world"></div>
+
+                        <div id="map-controls">
+                            <button onclick="Map.moveCamera(0, -20)">⬆</button>
+                            <div>
+                                <button onclick="Map.moveCamera(-20, 0)">⬅</button>
+                                <button onclick="Map.moveCamera(20, 0)">➡</button>
+                            </div>
+                            <button onclick="Map.moveCamera(0, 20)">⬇</button>
+
+                            <button onclick="Map.zoomCamera(0.1)">＋</button>
+                            <button onclick="Map.zoomCamera(-0.1)">－</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="footer" class="color-2">
@@ -50,7 +72,7 @@
 
         test 5
 
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <br /><br /><br /><br /><br /><br /><br /><br /><br />
         <div class="color-palette">
             <div class="color-1">COLOR 1</div>
             <div class="color-2">COLOR 2</div>
@@ -63,4 +85,5 @@
     <script src="js/storage.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>

@@ -1,57 +1,92 @@
-
 /* === MAP CONTAINER === */
-#map {
-  position: relative;
-  width: 600px;
-  height: 600px;
-  border: 2px solid #222;
-  overflow: hidden;
+#map-container {
+    touch-action: none;
+    position: relative;
+    width: 600px;
+    height: 600px;
+    border: 2px solid #222;
+    overflow: hidden;
+}
+
+#map-world {
+    position: relative;
+    width: 600px;
+    height: 600px;
+    border: 2px solid #222;
+    overflow: hidden;
+
+    position: absolute;
+    width: 1200px;
+    height: 1200px;
+    background: #d8b66a;
+    transform-origin: 0 0;
 }
 
 /* Grid overlay */
-#map::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(to right, rgba(255,255,255,0.25) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.25) 1px, transparent 1px);
-  background-size: 100px 100px;
-  pointer-events: none;
+#map-world::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.25) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+    background-size: 100px 100px;
+    pointer-events: none;
+}
+
+
+/* Controls */
+#map-controls {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#map-controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 /* === BASE MARKER === */
 .marker {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  transform: translate(-50%, -50%);
-  border-radius: 2px;
-  box-sizing: border-box;
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+    border-radius: 2px;
+    box-sizing: border-box;
 }
 
 /* === VILLAGE STATE === */
 .marker.owned {
-  background-color: #2ecc71; /* Green */
+    background-color: #2ecc71;
+    /* Green */
 }
 
 .marker.discovered {
-  background-color: #e74c3c; /* Red */
+    background-color: #e74c3c;
+    /* Red */
 }
 
 /* === VILLAGE LEVEL === */
 .marker.level-1 {
-  border: 1px solid #111;
+    border: 1px solid #111;
 }
 
 .marker.level-2 {
-  border: 2px solid #111;
+    border: 2px solid #111;
 }
 
 .marker.level-3 {
-  border: 3px solid #111;
+    border: 3px solid #111;
 }
 
 .marker.level-4 {
-  border: 4px solid #111;
+    border: 4px solid #111;
 }
