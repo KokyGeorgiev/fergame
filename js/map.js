@@ -9,8 +9,8 @@ var Map = {
     },
     containerId: "map-world",
 
-    getLevelName: function(level) {
-        switch(level) {
+    getLevelName: function (level) {
+        switch (level) {
             case 1: return 'village';
             case 2: return 'town';
             case 3: return 'fortress';
@@ -48,7 +48,8 @@ var Map = {
             };
         }
 
-        for (const v of worldData.villages) {
+        for (let i = 0; i < worldData.villages.length; i++) {
+            const v = worldData.villages[i];
             // ❌ Skip hidden villages entirely
             if (v.state === VisibilityState.HIDDEN) continue;
 
@@ -61,7 +62,7 @@ var Map = {
 
             marker.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const content = `
+                let content = `
                 <div class="content-card">
                     <div class="content-card-title color-2">
                         ${v.name}<br>
@@ -75,12 +76,40 @@ var Map = {
                     </div>
                     
                 </div>`;
+                if (v.level >= 2) {
+                    content += `<button onclick="Map.scout(${i})" style="margin-top: 10px;">Scout</button>`;
+                }
                 showPopup(content, e.clientX, e.clientY);
             });
 
             map.appendChild(marker);
         }
 
+    },
+
+
+    scout: function (index) {
+        const village = worldData.villages[index];
+        setTimeout(() => {
+            let closest = null;
+            let minDist = Infinity;
+            for (let vv of worldData.villages) {
+                if (vv.state === VisibilityState.HIDDEN) {
+                    const dist = Math.sqrt((vv.coordinates.x - village.coordinates.x) ** 2 + (vv.coordinates.y - village.coordinates.y) ** 2);
+                    if (dist < minDist) {
+                        minDist = dist;
+                        closest = vv;
+                    }
+                }
+            }
+            if (closest) {
+                closest.state = VisibilityState.DISCOVERED;
+                this.generateWorldMap("map-world", 50, 200);
+                showPopup(`New village discovered! <br> ${closest.name}!`, 100, 100);
+            } else {
+                showPopup('No hidden villages found.', 100, 100);
+            }
+        }, 5000);
     },
 
     getCapital: function () {
