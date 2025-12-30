@@ -48,6 +48,11 @@ div#content {
 .content-card-body {
     padding: 10px;
 }
+.content-card-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
 
 /* === THEME === */
 
@@ -75,4 +80,12 @@ div#content {
 .color-5 {
     background-color: #F5F5F5;
     color: #000000;
+}
+
+/* === POPUP === */
+#popup {
+    position: fixed;
+    z-index: 1000;
+    pointer-events: auto;
+    border-radius: 5px;
 }

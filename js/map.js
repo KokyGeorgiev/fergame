@@ -9,6 +9,16 @@ var Map = {
     },
     containerId: "map-world",
 
+    getLevelName: function(level) {
+        switch(level) {
+            case 1: return 'village';
+            case 2: return 'town';
+            case 3: return 'fortress';
+            case 4: return 'capital';
+            default: return 'unknown';
+        }
+    },
+
     init: function ({
         containerId = "map",
         mapSize = 50,
@@ -48,7 +58,25 @@ var Map = {
             marker.className = `marker level-${v.level} ${v.state}`;
             marker.style.left = `${pos.left}px`;
             marker.style.top = `${pos.top}px`;
-            marker.title = `${v.name} (Lv ${v.level})`;
+
+            marker.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const content = `
+                <div class="content-card">
+                    <div class="content-card-title color-2">
+                        ${v.name}<br>
+                        (${this.getLevelName(v.level)})<br>
+                    </div>
+                    <div class="content-card-body color-5">
+                        Gold: ${v.resources.gold} %<br>
+                        Wood: ${v.resources.wood} %<br>
+                        Stone: ${v.resources.stone} %<br>
+                        Food: ${v.resources.food} %
+                    </div>
+                    
+                </div>`;
+                showPopup(content, e.clientX, e.clientY);
+            });
 
             map.appendChild(marker);
         }
