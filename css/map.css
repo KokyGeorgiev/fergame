@@ -59,8 +59,8 @@
     width: 14px;
     height: 14px;
     transform: translate(-50%, -50%);
-    border-radius: 2px;
     box-sizing: border-box;
+    border: 1px solid #111111;
     cursor: pointer;
 }
 
@@ -71,23 +71,59 @@
 }
 
 .marker.discovered {
-    background-color: #e74c3c;
+    background-color: #FF0000;
     /* Red */
 }
 
 /* === VILLAGE LEVEL === */
 .marker.level-1 {
-    border: 1px solid #111;
+    transform: scale(0.75) translateX(-66%) translateY(-50%);
 }
 
 .marker.level-2 {
-    border: 2px solid #111;
+    transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .marker.level-3 {
-    border: 3px solid #111;
+    border-radius: 50%;
+    transform: scale(1.5) translateX(-33%) translateY(-33%);
 }
 
 .marker.level-4 {
-    border: 4px solid #111;
+    clip-path: polygon(
+        50% 0%,
+        61% 35%,
+        98% 35%,
+        68% 57%,
+        79% 91%,
+        50% 70%,
+        21% 91%,
+        32% 57%,
+        2% 35%,
+        39% 35%
+    );
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    border: 0px;
+    transform: scale(2) translateX(-25%) translateY(-25%);
+}
+
+
+.marker.sieged {
+  animation: siegePulse 1s infinite ease-in-out;
+  border: 2px dashed #b71c1c;
+  box-shadow: 0 0 6px rgba(183, 28, 28, 0.8);
+  z-index: 10;
+}
+
+/* === PULSE ANIMATION === */
+@keyframes siegePulse {
+  0% {
+    box-shadow: 0 0 5px rgba(183, 28, 28, 1);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(255, 0, 0, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(183, 28, 28, 1);
+  }
 }
