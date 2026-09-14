@@ -67,8 +67,24 @@ function updateResourceDisplay() {
     });
 }
 
+function updateCapitalIncomeSummary() {
+    var summaryElement = document.getElementById('capital-income-summary');
+    if (!summaryElement) {
+        return;
+    }
+
+    var growth = calculateResourceGrowth();
+    var minutes = 60 * 1000 / RESOURCE_TICK_MS;
+
+    var lines = Object.keys(growth).map(function (resourceName) {
+        var perMinute = Math.round(growth[resourceName] * minutes);
+        return resourceName.charAt(0).toUpperCase() + resourceName.slice(1) + ': +' + perMinute + '/min';
+    });
+
+    summaryElement.innerHTML = lines.join('<br>');
+}
+
 function addResourcesTick() {
-    console.log("Adding resources tick...");
     var growth = calculateResourceGrowth();
 
     Object.keys(playerResources).forEach(function (resourceName) {
@@ -76,7 +92,9 @@ function addResourcesTick() {
     });
 
     updateResourceDisplay();
+    updateCapitalIncomeSummary();
 }
 
 updateResourceDisplay();
+updateCapitalIncomeSummary();
 setInterval(addResourcesTick, RESOURCE_TICK_MS);
