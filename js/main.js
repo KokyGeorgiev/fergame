@@ -1,8 +1,10 @@
-Map.init({
-    containerId: "map-world",
-    mapSize: 50,
-    worldSize: 200
-});
+if (typeof Map !== 'undefined' && typeof Map.init === 'function') {
+    Map.init({
+        containerId: "map-world",
+        mapSize: 50,
+        worldSize: 200
+    });
+}
 
 var PageNavigation = {
     pages: {
@@ -16,13 +18,6 @@ var PageNavigation = {
         pages.forEach(function (page) {
             page.classList.toggle('active', page.id === pageId);
         });
-
-        if (pageId === 'page-map' && typeof Map !== 'undefined' && Map.generateWorldMap) {
-            requestAnimationFrame(function () {
-                Map.generateWorldMap('map-world', 50, 200);
-                Map.centerCameraOnCapital('map-world', 50, 200);
-            });
-        }
     },
 
     init: function () {

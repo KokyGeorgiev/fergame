@@ -20,14 +20,20 @@ div#content {
     
 }
 .page-content {
-    display: none;
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
     border-radius: 5px;
     padding: 5px;
     margin: 5px;
 }
 
 .page-content.active {
-    display: block;
+    position: relative;
+    left: auto;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 #page-map {
