@@ -20,9 +20,24 @@ div#content {
     
 }
 .page-content {
+    display: none;
     border-radius: 5px;
     padding: 5px;
     margin: 5px;
+}
+
+.page-content.active {
+    display: block;
+}
+
+#page-map {
+    min-height: 500px;
+}
+
+#map-container {
+    width: 100%;
+    min-height: 500px;
+    overflow: hidden;
 }
 
 .nav-menu-item {

@@ -4,6 +4,47 @@ Map.init({
     worldSize: 200
 });
 
+var PageNavigation = {
+    pages: {
+        "nav_home": "page-home",
+        "nav-capital": "page-capital",
+        "nav_map": "page-map"
+    },
+
+    showPage: function (pageId) {
+        var pages = document.querySelectorAll('.page-content');
+        pages.forEach(function (page) {
+            page.classList.toggle('active', page.id === pageId);
+        });
+
+        if (pageId === 'page-map' && typeof Map !== 'undefined' && Map.generateWorldMap) {
+            requestAnimationFrame(function () {
+                Map.generateWorldMap('map-world', 50, 200);
+                Map.centerCameraOnCapital('map-world', 50, 200);
+            });
+        }
+    },
+
+    init: function () {
+        var self = this;
+
+        Object.keys(this.pages).forEach(function (buttonId) {
+            var button = document.getElementById(buttonId);
+            var pageId = self.pages[buttonId];
+
+            if (button) {
+                button.addEventListener('click', function () {
+                    self.showPage(pageId);
+                });
+            }
+        });
+
+        this.showPage('page-home');
+    }
+};
+
+PageNavigation.init();
+
 /*
 Map.generateWorldMap({
     containerId: "map",
