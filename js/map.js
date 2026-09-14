@@ -76,6 +76,9 @@ var Map = {
                     </div>
                     
                 </div>`;
+                if (v.state !== VisibilityState.OWNED) {
+                    content += `<button onclick="Map.captureVillage(${i})" style="margin-top: 10px;">Capture Village</button>`;
+                }
                 if (v.level >= 2) {
                     content += `<button onclick="Map.scout(${i})" style="margin-top: 10px;">Scout around!</button>`;
                 }
@@ -87,6 +90,20 @@ var Map = {
 
     },
 
+
+    captureVillage: function (index) {
+        const village = worldData.villages[index];
+        if (!village || village.state === VisibilityState.OWNED) {
+            return;
+        }
+
+        village.state = VisibilityState.OWNED;
+        if (typeof updateCapitalIncomeSummary === 'function') {
+            updateCapitalIncomeSummary();
+        }
+        this.generateWorldMap("map-world", 50, 200);
+        showPopup(`${village.name} captured! It is now under your control.`, 100, 100);
+    },
 
     scout: function (index) {
         const village = worldData.villages[index];
