@@ -3,6 +3,7 @@
 div#wrapper {
     display: flex;
     flex-direction: column;
+    min-height: 700px;
 }
 div#header,
 div#content,
@@ -18,6 +19,9 @@ div#footer {
 }
 div#content {
     
+}
+div#footer {
+    margin-top: auto;
 }
 .page-content {
     position: absolute;
@@ -109,4 +113,17 @@ div#content {
     z-index: 1000;
     pointer-events: auto;
     border-radius: 5px;
+}
+
+#popup button {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 5px;
+    border: 1px solid #595959;
+    border-radius: 4px;
+    background: #595959;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9em;
 }

@@ -62,6 +62,15 @@ var Map = {
 
             marker.addEventListener('click', (e) => {
                 e.stopPropagation();
+                let actions = ``;
+
+                if (v.state !== VisibilityState.OWNED) {
+                    actions += `<button onclick="Map.captureVillage(${i})">Capture Village</button>`;
+                }
+                if (v.level >= 2) {
+                    actions += `<button onclick="Map.scout(${i})">Scout around!</button>`;
+                }
+
                 let content = `
                 <div class="content-card">
                     <div class="content-card-title color-2">
@@ -74,14 +83,9 @@ var Map = {
                         Stone: ${v.resources.stone} %<br>
                         Food: ${v.resources.food} %
                     </div>
-                    
+                    ${actions}
                 </div>`;
-                if (v.state !== VisibilityState.OWNED) {
-                    content += `<button onclick="Map.captureVillage(${i})" style="margin-top: 10px;">Capture Village</button>`;
-                }
-                if (v.level >= 2) {
-                    content += `<button onclick="Map.scout(${i})" style="margin-top: 10px;">Scout around!</button>`;
-                }
+
                 showPopup(content, e.clientX, e.clientY);
             });
 
