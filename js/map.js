@@ -77,7 +77,7 @@ var Map = {
                     
                 </div>`;
                 if (v.level >= 2) {
-                    content += `<button onclick="Map.scout(${i})" style="margin-top: 10px;">Scout</button>`;
+                    content += `<button onclick="Map.scout(${i})" style="margin-top: 10px;">Scout around!</button>`;
                 }
                 showPopup(content, e.clientX, e.clientY);
             });
