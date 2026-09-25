@@ -65,7 +65,7 @@ var Map = {
                 let actions = ``;
 
                 if (v.state !== VisibilityState.OWNED) {
-                    actions += `<button onclick="Map.captureVillage(${i})">Capture Village</button>`;
+                    actions += `<button onclick="Map.captureVillage(${i})">Capture</button>`;
                 }
                 if (v.level >= 2) {
                     actions += `<button onclick="Map.scout(${i})">Scout around!</button>`;
@@ -108,13 +108,13 @@ var Map = {
             popup.style.display = 'none';
         }
 
-        GameNotifications.startProgress('Capturing a village...', 1000, 'warning', function () {
+        GameNotifications.startProgress('Capturing a ' + this.getLevelName(village.level) + '...', 1000, 'warning', function () {
             village.state = VisibilityState.OWNED;
             if (typeof updateCapitalIncomeSummary === 'function') {
                 updateCapitalIncomeSummary();
             }
             this.generateWorldMap("map-world", 50, 200);
-            GameNotifications.add('Village captured: ' + village.name, 'success');
+            GameNotifications.add(this.getLevelName(village.level).charAt(0).toUpperCase() + this.getLevelName(village.level).slice(1) + ' captured: ' + village.name, 'success');
         }.bind(this));
     },
 
@@ -140,7 +140,7 @@ var Map = {
             if (closest) {
                 closest.state = VisibilityState.DISCOVERED;
                 this.generateWorldMap("map-world", 50, 200);
-                GameNotifications.add('New village discovered: ' + closest.name, 'success');
+                GameNotifications.add('New ' + this.getLevelName(closest.level) + ' discovered: ' + closest.name, 'success');
             } else {
                 GameNotifications.add('No hidden villages found.', 'warning');
             }
