@@ -56,7 +56,15 @@ div#footer {
     overflow: hidden;
 }
 
-#notification-panel {
+#side-panels {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 5px 0;
+}
+
+#notification-panel,
+#action-panel {
     width: 220px;
     flex-shrink: 0;
     padding: 8px;
@@ -64,10 +72,10 @@ div#footer {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin: 5px 0;
 }
 
-.notification-header {
+.notification-header,
+.action-header {
     font-size: 0.8em;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -75,7 +83,8 @@ div#footer {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-#notification-list {
+#notification-list,
+#action-list {
     display: flex;
     flex-direction: column;
     gap: 8px;

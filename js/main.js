@@ -7,8 +7,8 @@ if (typeof Map !== 'undefined' && typeof Map.init === 'function') {
 }
 
 var GameNotifications = {
-    add: function (message, type, showProgress) {
-        var list = document.getElementById('notification-list');
+    addToList: function (listId, message, type, showProgress) {
+        var list = document.getElementById(listId);
         if (!list) {
             return null;
         }
@@ -30,8 +30,16 @@ var GameNotifications = {
         return item;
     },
 
+    add: function (message, type) {
+        return this.addToList('notification-list', message, type, false);
+    },
+
+    addAction: function (message, type) {
+        return this.addToList('action-list', message, type, true);
+    },
+
     startProgress: function (message, durationMs, type, onComplete) {
-        var item = this.add(message, type, true);
+        var item = this.addAction(message, type);
         if (!item) {
             return null;
         }
@@ -49,6 +57,10 @@ var GameNotifications = {
 
                 if (typeof onComplete === 'function') {
                     onComplete();
+                }
+
+                if (item && item.parentNode) {
+                    item.parentNode.removeChild(item);
                 }
 
                 if (container) {
