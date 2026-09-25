@@ -207,3 +207,10 @@ div#footer {
     cursor: pointer;
     font-size: 0.9em;
 }
+
+#popup button:disabled {
+    opacity: 0.45;
+    filter: grayscale(0.3);
+    cursor: not-allowed;
+    pointer-events: auto;
+}

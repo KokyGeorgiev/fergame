@@ -1,6 +1,7 @@
 var Map = {
 
     isPanning: false,
+    isScoutActionActive: false,
     lastTouch: { x: 0, y: 0 },
     camera: {
         x: 300,
@@ -68,7 +69,8 @@ var Map = {
                     actions += `<button onclick="Map.captureVillage(${i})">Capture</button>`;
                 }
                 if (v.state === VisibilityState.OWNED && v.level >= 2) {
-                    actions += `<button onclick="Map.scout(${i})">Scout around!</button>`;
+                    const canScout = !Map.isScoutActionActive;
+                    actions += `<button onclick="Map.scout(${i})" ${canScout ? '' : 'disabled'}>Scout around!</button>`;
                 }
 
                 let content = `
@@ -123,12 +125,22 @@ var Map = {
 
     scout: function (index) {
         const village = worldData.villages[index];
+        if (!village || village.state !== VisibilityState.OWNED || this.isScoutActionActive) {
+            return;
+        }
+
+        this.isScoutActionActive = true;
+        village.scoutingInProgress = true;
+
         const popup = document.getElementById('popup');
         if (popup) {
             popup.style.display = 'none';
         }
 
         GameNotifications.startProgress('Scouting...', 5000, 'info', function () {
+            this.isScoutActionActive = false;
+            village.scoutingInProgress = false;
+
             let closest = null;
             let minDist = Infinity;
             for (let vv of worldData.villages) {
