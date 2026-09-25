@@ -2,6 +2,7 @@ var Map = {
 
     isPanning: false,
     isScoutActionActive: false,
+    scoutDiscoveryCount: 0,
     lastTouch: { x: 0, y: 0 },
     camera: {
         x: 300,
@@ -18,6 +19,13 @@ var Map = {
             case 4: return 'capital';
             default: return 'unknown';
         }
+    },
+
+    getScoutDuration: function () {
+        var discoveries = this.scoutDiscoveryCount || 0;
+        var multiplier = 1 + (discoveries * 0.22) + (Math.pow(discoveries + 1, 1.7) * 0.015);
+        var baseDuration = 30000;
+        return Math.round(baseDuration * multiplier);
     },
 
     init: function ({
@@ -137,7 +145,9 @@ var Map = {
             popup.style.display = 'none';
         }
 
-        GameNotifications.startProgress('Scouting...', 5000, 'info', function () {
+        var scoutDuration = this.getScoutDuration();
+
+        GameNotifications.startProgress('Scouting...', scoutDuration, 'info', function () {
             this.isScoutActionActive = false;
             village.scoutingInProgress = false;
 
@@ -153,6 +163,7 @@ var Map = {
                 }
             }
             if (closest) {
+                this.scoutDiscoveryCount += 1;
                 closest.state = VisibilityState.DISCOVERED;
                 this.generateWorldMap("map-world", 50, 200);
                 GameNotifications.add('New ' + this.getLevelName(closest.level) + ' discovered: ' + closest.name, 'success');
