@@ -52,6 +52,19 @@ function calculateResourceGrowth() {
     return growth;
 }
 
+function updateVillageCount() {
+    var villageElement = document.getElementById('resource-villages');
+    if (!villageElement || !worldData || !Array.isArray(worldData.villages)) {
+        return;
+    }
+
+    var ownedVillageCount = worldData.villages.filter(function (village) {
+        return village.state === VisibilityState.OWNED;
+    }).length;
+
+    villageElement.textContent = 'Villages: ' + ownedVillageCount;
+}
+
 function updateResourceDisplay() {
     var resourceElements = {
         gold: document.getElementById('resource-gold'),
@@ -65,6 +78,8 @@ function updateResourceDisplay() {
             resourceElements[resourceName].textContent = resourceName.charAt(0).toUpperCase() + resourceName.slice(1) + ': ' + playerResources[resourceName];
         }
     });
+
+    updateVillageCount();
 }
 
 function updateCapitalIncomeSummary() {

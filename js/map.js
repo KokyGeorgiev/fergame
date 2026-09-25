@@ -113,6 +113,9 @@ var Map = {
             if (typeof updateCapitalIncomeSummary === 'function') {
                 updateCapitalIncomeSummary();
             }
+            if (typeof updateVillageCount === 'function') {
+                updateVillageCount();
+            }
             this.generateWorldMap("map-world", 50, 200);
             GameNotifications.add(this.getLevelName(village.level).charAt(0).toUpperCase() + this.getLevelName(village.level).slice(1) + ' captured: ' + village.name, 'success');
         }.bind(this));
