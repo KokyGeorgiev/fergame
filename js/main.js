@@ -23,7 +23,7 @@ var GameNotifications = {
 
         list.prepend(item);
 
-        while (list.children.length > 6) {
+        while (list.children.length > 10) {
             list.removeChild(list.lastChild);
         }
 
