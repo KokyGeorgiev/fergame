@@ -102,22 +102,25 @@ div#footer {
 }
 
 .notification-label {
-    margin-bottom: 4px;
+
 }
 
 .notification-bar {
     height: 4px;
+    margin-top: 4px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 999px;
     overflow: hidden;
+    display: block;
 }
 
 .notification-bar span {
     display: block;
     height: 100%;
-    width: 100%;
+    width: 0%;
     background: rgba(255, 255, 255, 0.8);
     border-radius: inherit;
+    transition: width 0.05s linear;
 }
 
 .nav-menu-item {

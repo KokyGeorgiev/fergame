@@ -108,16 +108,14 @@ var Map = {
             popup.style.display = 'none';
         }
 
-        GameNotifications.add('Capturing a village...', 'warning');
-
-        setTimeout(() => {
+        GameNotifications.startProgress('Capturing a village...', 1000, 'warning', function () {
             village.state = VisibilityState.OWNED;
             if (typeof updateCapitalIncomeSummary === 'function') {
                 updateCapitalIncomeSummary();
             }
             this.generateWorldMap("map-world", 50, 200);
             GameNotifications.add('Village captured: ' + village.name, 'success');
-        }, 1000);
+        }.bind(this));
     },
 
     scout: function (index) {
@@ -127,9 +125,7 @@ var Map = {
             popup.style.display = 'none';
         }
 
-        GameNotifications.add('Scouting...', 'info');
-
-        setTimeout(() => {
+        GameNotifications.startProgress('Scouting...', 5000, 'info', function () {
             let closest = null;
             let minDist = Infinity;
             for (let vv of worldData.villages) {
@@ -148,7 +144,7 @@ var Map = {
             } else {
                 GameNotifications.add('No hidden villages found.', 'warning');
             }
-        }, 5000);
+        }.bind(this));
     },
 
     getCapital: function () {

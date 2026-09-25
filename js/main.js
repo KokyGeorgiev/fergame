@@ -7,7 +7,7 @@ if (typeof Map !== 'undefined' && typeof Map.init === 'function') {
 }
 
 var GameNotifications = {
-    add: function (message, type) {
+    add: function (message, type, showProgress) {
         var list = document.getElementById('notification-list');
         if (!list) {
             return null;
@@ -18,7 +18,7 @@ var GameNotifications = {
 
         item.innerHTML = `
             <div class="notification-label">${message}</div>
-            <div class="notification-bar"><span></span></div>
+            <div class="notification-bar" style="display: ${showProgress ? 'block' : 'none'};"><span></span></div>
         `;
 
         list.prepend(item);
@@ -26,6 +26,36 @@ var GameNotifications = {
         while (list.children.length > 6) {
             list.removeChild(list.lastChild);
         }
+
+        return item;
+    },
+
+    startProgress: function (message, durationMs, type, onComplete) {
+        var item = this.add(message, type, true);
+        if (!item) {
+            return null;
+        }
+
+        var bar = item.querySelector('.notification-bar span');
+        var container = item.querySelector('.notification-bar');
+        var startTime = Date.now();
+        var interval = setInterval(function () {
+            var elapsed = Date.now() - startTime;
+            var progress = Math.min(elapsed / durationMs, 1);
+            bar.style.width = Math.max(0, progress * 100) + '%';
+
+            if (progress >= 1) {
+                clearInterval(interval);
+
+                if (typeof onComplete === 'function') {
+                    onComplete();
+                }
+
+                if (container) {
+                    container.style.display = 'none';
+                }
+            }
+        }, 50);
 
         return item;
     }
