@@ -6,6 +6,31 @@ if (typeof Map !== 'undefined' && typeof Map.init === 'function') {
     });
 }
 
+var GameNotifications = {
+    add: function (message, type) {
+        var list = document.getElementById('notification-list');
+        if (!list) {
+            return null;
+        }
+
+        var item = document.createElement('div');
+        item.className = 'notification-item ' + (type || 'info');
+
+        item.innerHTML = `
+            <div class="notification-label">${message}</div>
+            <div class="notification-bar"><span></span></div>
+        `;
+
+        list.prepend(item);
+
+        while (list.children.length > 6) {
+            list.removeChild(list.lastChild);
+        }
+
+        return item;
+    }
+};
+
 var PageNavigation = {
     pages: {
         "nav_home": "page-home",

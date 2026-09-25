@@ -101,16 +101,32 @@ var Map = {
             return;
         }
 
-        village.state = VisibilityState.OWNED;
-        if (typeof updateCapitalIncomeSummary === 'function') {
-            updateCapitalIncomeSummary();
+        const popup = document.getElementById('popup');
+        if (popup) {
+            popup.style.display = 'none';
         }
-        this.generateWorldMap("map-world", 50, 200);
-        showPopup(`${village.name} captured! It is now under your control.`, 100, 100);
+
+        GameNotifications.add('Capturing a village...', 'warning');
+
+        setTimeout(() => {
+            village.state = VisibilityState.OWNED;
+            if (typeof updateCapitalIncomeSummary === 'function') {
+                updateCapitalIncomeSummary();
+            }
+            this.generateWorldMap("map-world", 50, 200);
+            GameNotifications.add('Village captured: ' + village.name, 'success');
+        }, 1000);
     },
 
     scout: function (index) {
         const village = worldData.villages[index];
+        const popup = document.getElementById('popup');
+        if (popup) {
+            popup.style.display = 'none';
+        }
+
+        GameNotifications.add('Scouting...', 'info');
+
         setTimeout(() => {
             let closest = null;
             let minDist = Infinity;
@@ -126,9 +142,9 @@ var Map = {
             if (closest) {
                 closest.state = VisibilityState.DISCOVERED;
                 this.generateWorldMap("map-world", 50, 200);
-                showPopup(`New village discovered! <br> ${closest.name}!`, 100, 100);
+                GameNotifications.add('New village discovered: ' + closest.name, 'success');
             } else {
-                showPopup('No hidden villages found.', 100, 100);
+                GameNotifications.add('No hidden villages found.', 'warning');
             }
         }, 5000);
     },
