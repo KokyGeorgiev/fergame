@@ -71,7 +71,6 @@ div#footer {
     font-size: 0.8em;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    opacity: 0.8;
     padding-bottom: 4px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -126,6 +125,7 @@ div#footer {
     padding: 5px;
     cursor: pointer;
     border-radius: 5px;
+    letter-spacing: 0.2em;
 }
 
 .resource-container {
@@ -149,6 +149,11 @@ div#footer {
     text-align: center;
     font-weight: bold;
     font-size: 1.2em;
+    letter-spacing: 0.1em;
+}
+.content-card-subtitle {
+    font-weight: normal;
+    font-size: 0.7em;
 }
 
 /* === THEME === */

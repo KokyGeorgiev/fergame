@@ -75,7 +75,9 @@ var Map = {
                 <div class="content-card">
                     <div class="content-card-title color-2">
                         ${v.name}<br>
-                        (${this.getLevelName(v.level)})<br>
+                        <div class="content-card-subtitle">
+                            (${this.getLevelName(v.level)})<br>
+                        </div>
                     </div>
                     <div class="content-card-body color-5">
                         Gold: ${v.resources.gold} %<br>
