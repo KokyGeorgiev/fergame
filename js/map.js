@@ -67,7 +67,7 @@ var Map = {
                 if (v.state !== VisibilityState.OWNED) {
                     actions += `<button onclick="Map.captureVillage(${i})">Capture</button>`;
                 }
-                if (v.level >= 2) {
+                if (v.state === VisibilityState.OWNED && v.level >= 2) {
                     actions += `<button onclick="Map.scout(${i})">Scout around!</button>`;
                 }
 
