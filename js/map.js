@@ -2,7 +2,6 @@ var Map = {
 
     isPanning: false,
     isScoutActionActive: false,
-    scoutDiscoveryCount: 0,
     lastTouch: { x: 0, y: 0 },
     camera: {
         x: 300,
@@ -21,9 +20,19 @@ var Map = {
         }
     },
 
+    getDiscoveredVillageCount: function () {
+        if (!worldData || !Array.isArray(worldData.villages)) {
+            return 0;
+        }
+
+        return worldData.villages.filter(function (village) {
+            return village.state === VisibilityState.DISCOVERED;
+        }).length;
+    },
+
     getScoutDuration: function () {
-        var discoveries = this.scoutDiscoveryCount || 0;
-        var multiplier = 1 + (discoveries * 0.22) + (Math.pow(discoveries + 1, 1.7) * 0.015);
+        var discoveries = this.getDiscoveredVillageCount();
+        var multiplier = 1 + (discoveries * 0.18) + (Math.pow(discoveries + 1, 1.7) * 0.01);
         var baseDuration = 30000;
         return Math.round(baseDuration * multiplier);
     },
@@ -128,10 +137,13 @@ var Map = {
             }
             this.generateWorldMap("map-world", 50, 200);
             GameNotifications.add(this.getLevelName(village.level).charAt(0).toUpperCase() + this.getLevelName(village.level).slice(1) + ' captured: ' + village.name, 'success');
-        }.bind(this));
+        }.bind(this), {
+            actionType: 'capture',
+            villageIndex: index
+        });
     },
 
-    scout: function (index) {
+    scout: function (index, resumeState) {
         const village = worldData.villages[index];
         if (!village || village.state !== VisibilityState.OWNED || this.isScoutActionActive) {
             return;
@@ -146,31 +158,46 @@ var Map = {
         }
 
         var scoutDuration = this.getScoutDuration();
+        var remainingMs = resumeState && typeof resumeState.remainingMs === 'number' ? resumeState.remainingMs : scoutDuration;
+        var actionId = resumeState && resumeState.actionId ? resumeState.actionId : null;
 
         GameNotifications.startProgress('Scouting...', scoutDuration, 'info', function () {
-            this.isScoutActionActive = false;
-            village.scoutingInProgress = false;
+            this.scoutComplete(index);
+        }.bind(this), {
+            id: actionId,
+            actionType: 'scout',
+            villageIndex: index,
+            resumeRemainingMs: remainingMs
+        });
+    },
 
-            let closest = null;
-            let minDist = Infinity;
-            for (let vv of worldData.villages) {
-                if (vv.state === VisibilityState.HIDDEN) {
-                    const dist = Math.sqrt((vv.coordinates.x - village.coordinates.x) ** 2 + (vv.coordinates.y - village.coordinates.y) ** 2);
-                    if (dist < minDist) {
-                        minDist = dist;
-                        closest = vv;
-                    }
+    scoutComplete: function (index) {
+        var village = worldData.villages[index];
+        if (!village) {
+            return;
+        }
+
+        this.isScoutActionActive = false;
+        village.scoutingInProgress = false;
+
+        let closest = null;
+        let minDist = Infinity;
+        for (let vv of worldData.villages) {
+            if (vv.state === VisibilityState.HIDDEN) {
+                const dist = Math.sqrt((vv.coordinates.x - village.coordinates.x) ** 2 + (vv.coordinates.y - village.coordinates.y) ** 2);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = vv;
                 }
             }
-            if (closest) {
-                this.scoutDiscoveryCount += 1;
-                closest.state = VisibilityState.DISCOVERED;
-                this.generateWorldMap("map-world", 50, 200);
-                GameNotifications.add('New ' + this.getLevelName(closest.level) + ' discovered: ' + closest.name, 'success');
-            } else {
-                GameNotifications.add('No hidden villages found.', 'warning');
-            }
-        }.bind(this));
+        }
+        if (closest) {
+            closest.state = VisibilityState.DISCOVERED;
+            this.generateWorldMap("map-world", 50, 200);
+            GameNotifications.add('New ' + this.getLevelName(closest.level) + ' discovered: ' + closest.name, 'success');
+        } else {
+            GameNotifications.add('No hidden villages found.', 'warning');
+        }
     },
 
     getCapital: function () {

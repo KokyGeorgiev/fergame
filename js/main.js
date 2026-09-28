@@ -7,6 +7,8 @@ if (typeof Map !== 'undefined' && typeof Map.init === 'function') {
 }
 
 var GameNotifications = {
+    activeActions: [],
+
     addToList: function (listId, message, type, showProgress) {
         var list = document.getElementById(listId);
         if (!list) {
@@ -38,38 +40,82 @@ var GameNotifications = {
         return this.addToList('action-list', message, type, true);
     },
 
-    startProgress: function (message, durationMs, type, onComplete) {
+    startProgress: function (message, durationMs, type, onComplete, metadata) {
         var item = this.addAction(message, type);
         if (!item) {
             return null;
         }
 
+        var resumeRemainingMs = metadata && typeof metadata.resumeRemainingMs === 'number' ? metadata.resumeRemainingMs : durationMs;
+        var actionId = metadata && metadata.id ? metadata.id : (Date.now() + '-' + Math.random().toString(16).slice(2));
+        var actionType = metadata && metadata.actionType ? metadata.actionType : (type || 'info');
+        var actionState = {
+            id: actionId,
+            type: actionType,
+            message: message,
+            durationMs: durationMs,
+            remainingMs: resumeRemainingMs,
+            startedAt: Date.now(),
+            metadata: metadata || {}
+        };
+
+        this.activeActions.push(actionState);
+
         var bar = item.querySelector('.notification-bar span');
         var container = item.querySelector('.notification-bar');
-        var startTime = Date.now();
+        var startTime = Date.now() - (durationMs - resumeRemainingMs);
         var interval = setInterval(function () {
             var elapsed = Date.now() - startTime;
             var progress = Math.min(elapsed / durationMs, 1);
+            var remainingMs = Math.max(0, durationMs - elapsed);
+            actionState.remainingMs = remainingMs;
             bar.style.width = Math.max(0, progress * 100) + '%';
 
             if (progress >= 1) {
                 clearInterval(interval);
 
-                if (typeof onComplete === 'function') {
-                    onComplete();
-                }
-
                 if (item && item.parentNode) {
                     item.parentNode.removeChild(item);
+                }
+
+                this.activeActions = this.activeActions.filter(function (action) {
+                    return action.id !== actionId;
+                });
+
+                if (typeof onComplete === 'function') {
+                    onComplete();
                 }
 
                 if (container) {
                     container.style.display = 'none';
                 }
             }
-        }, 50);
+        }.bind(this), 50);
 
         return item;
+    },
+
+    restoreActions: function () {
+        if (!Array.isArray(this.activeActions)) {
+            return;
+        }
+
+        this.activeActions.forEach(function (action) {
+            if (!action || !action.metadata) {
+                return;
+            }
+
+            if (action.type === 'scout' && typeof action.metadata.villageIndex === 'number') {
+                if (typeof Map !== 'undefined' && typeof Map.scout === 'function') {
+                    Map.scout(action.metadata.villageIndex, {
+                        resume: true,
+                        remainingMs: action.remainingMs,
+                        durationMs: action.durationMs,
+                        actionId: action.id
+                    });
+                }
+            }
+        });
     }
 };
 
@@ -106,6 +152,31 @@ var PageNavigation = {
 };
 
 PageNavigation.init();
+
+if (typeof loadGameState === 'function') {
+    loadGameState();
+}
+
+if (typeof Map !== 'undefined' && typeof Map.generateWorldMap === 'function') {
+    Map.generateWorldMap("map-world", 50, 200);
+    if (typeof Map.centerCameraOnCapital === 'function') {
+        Map.centerCameraOnCapital("map-world", 50, 200);
+    }
+}
+
+if (typeof GameNotifications !== 'undefined' && typeof GameNotifications.restoreActions === 'function') {
+    GameNotifications.restoreActions();
+}
+
+window.manualSaveGame = function () {
+    if (typeof saveGameState === 'function') {
+        saveGameState();
+    }
+
+    if (typeof GameNotifications !== 'undefined' && typeof GameNotifications.add === 'function') {
+        GameNotifications.add('Game saved.', 'success');
+    }
+};
 
 /*
 Map.generateWorldMap({
