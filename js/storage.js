@@ -79,6 +79,7 @@ function saveGameState() {
   var snapshot = {
     worldData: cloneData(worldData),
     playerResources: cloneData(playerResources),
+    scienceDiscoveries: cloneData(scienceDiscoveries),
     mapCamera: (typeof Map !== 'undefined' && Map.camera) ? {
       x: Map.camera.x,
       y: Map.camera.y,
@@ -122,6 +123,14 @@ function loadGameState() {
       Object.keys(playerResources).forEach(function (key) {
         if (typeof snapshot.playerResources[key] !== 'undefined') {
           playerResources[key] = snapshot.playerResources[key];
+        }
+      });
+    }
+
+    if (snapshot.scienceDiscoveries && typeof scienceDiscoveries !== 'undefined') {
+      Object.keys(scienceDiscoveries).forEach(function (scienceKey) {
+        if (snapshot.scienceDiscoveries[scienceKey] && typeof snapshot.scienceDiscoveries[scienceKey].level !== 'undefined') {
+          scienceDiscoveries[scienceKey].level = snapshot.scienceDiscoveries[scienceKey].level;
         }
       });
     }

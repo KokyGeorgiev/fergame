@@ -157,6 +157,10 @@ if (typeof loadGameState === 'function') {
     loadGameState();
 }
 
+if (typeof renderScientistDiscoveryPanel === 'function') {
+    renderScientistDiscoveryPanel();
+}
+
 if (typeof Map !== 'undefined' && typeof Map.generateWorldMap === 'function') {
     Map.generateWorldMap("map-world", 50, 200);
     if (typeof Map.centerCameraOnCapital === 'function') {

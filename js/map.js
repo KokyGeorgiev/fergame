@@ -35,7 +35,8 @@ var Map = {
         var discoveries = this.getDiscoveredVillageCount();
         var multiplier = 1 + (discoveries * 0.18) + (Math.pow(discoveries + 1, 1.7) * 0.01);
         var baseDuration = 30000;
-        return Math.round(baseDuration * multiplier);
+        var scienceMultiplier = typeof getScoutingSpeedMultiplier === 'function' ? getScoutingSpeedMultiplier() : 1;
+        return Math.round(baseDuration * multiplier * scienceMultiplier);
     },
 
     init: function ({

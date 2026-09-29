@@ -79,6 +79,10 @@ function updateResourceDisplay() {
         }
     });
 
+    if (typeof renderScientistDiscoveryPanel === 'function') {
+        renderScientistDiscoveryPanel();
+    }
+
     updateVillageCount();
 }
 

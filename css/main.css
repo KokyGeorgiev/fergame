@@ -176,6 +176,27 @@ div#footer {
     font-size: 0.7em;
 }
 
+.science-discovery-item {
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.science-discovery-item:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+.science-discovery-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.science-discovery-meta {
+    font-size: 0.85em;
+    margin-bottom: 8px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
 /* === THEME === */
 
 .color-palette div {
@@ -233,10 +254,13 @@ div#footer {
     margin-top: 0;
 }
 
+.action-button:disabled,
 #popup button:disabled {
     opacity: 0.45;
     filter: grayscale(0.3);
     cursor: not-allowed;
     pointer-events: auto;
+    background: #595959;
+    color: #fff;
 }
 
