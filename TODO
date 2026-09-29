@@ -11,3 +11,18 @@ Create list of villages. Each village should have:
         - stone
         - food
     - discovered (boolean)
+
+
+ARMY:
+    - time training reduction based on the number of outposts captured
+    - Mad Scientist for Strength upgrade per unit
+
+VILLAGE CAPTURING:
+    - village strength
+    - combat system
+    - travel time for capturing action
+
+UI:
+    - collapsing sections in Home and Capital
+    - show/hide sections, e.g. no troop training section if barracks are not built
+    - Newsletter on Home page? Like "a town has joined our empire", "That mf the Mad Scientist came up with an idea, check it out!", etc.
