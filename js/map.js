@@ -3,6 +3,7 @@ var Map = {
     isPanning: false,
     isScoutActionActive: false,
     lastTouch: { x: 0, y: 0 },
+    lastMouse: { x: 0, y: 0 },
     camera: {
         x: 300,
         y: 300,
@@ -47,6 +48,7 @@ var Map = {
 
         this.generateWorldMap(containerId, mapSize, worldSize);
         this.centerCameraOnCapital(containerId, mapSize, worldSize);
+        this.addMouseSupport();
         this.addMobileSupport();
 
     },
@@ -236,6 +238,50 @@ var Map = {
         this.camera.y = wy - viewport.clientHeight / 2;
 
         this.updateCamera();
+    },
+
+    addMouseSupport: function () {
+        const map = document.getElementById(this.containerId);
+        if (!map) {
+            return;
+        }
+
+        map.addEventListener('mousedown', function (e) {
+            if (e.button !== 0) {
+                return;
+            }
+
+            this.isPanning = true;
+            this.lastMouse.x = e.clientX;
+            this.lastMouse.y = e.clientY;
+        }.bind(this));
+
+        map.addEventListener('mousemove', function (e) {
+            if (!this.isPanning) {
+                return;
+            }
+
+            const dx = e.clientX - this.lastMouse.x;
+            const dy = e.clientY - this.lastMouse.y;
+
+            this.camera.x -= dx;
+            this.camera.y -= dy;
+            this.lastMouse.x = e.clientX;
+            this.lastMouse.y = e.clientY;
+            this.updateCamera();
+        }.bind(this));
+
+        map.addEventListener('mouseup', function () {
+            this.isPanning = false;
+        }.bind(this));
+
+        map.addEventListener('mouseleave', function () {
+            this.isPanning = false;
+        }.bind(this));
+
+        map.addEventListener('dragstart', function (e) {
+            e.preventDefault();
+        });
     },
 
     addMobileSupport: function () {
