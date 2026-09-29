@@ -84,6 +84,7 @@ function saveGameState() {
     worldData: cloneData(worldData),
     playerResources: cloneData(playerResources),
     scienceDiscoveries: cloneData(scienceDiscoveries),
+    capitalBuildings: cloneData(capitalBuildings),
     mapCamera: (typeof Map !== 'undefined' && Map.camera) ? {
       x: Map.camera.x,
       y: Map.camera.y,
@@ -139,6 +140,14 @@ function loadGameState() {
       });
     }
 
+    if (snapshot.capitalBuildings && typeof capitalBuildings !== 'undefined') {
+      Object.keys(capitalBuildings).forEach(function (buildingKey) {
+        if (snapshot.capitalBuildings[buildingKey] && typeof snapshot.capitalBuildings[buildingKey].level !== 'undefined') {
+          capitalBuildings[buildingKey].level = snapshot.capitalBuildings[buildingKey].level;
+        }
+      });
+    }
+
     if (snapshot.mapCamera && typeof Map !== 'undefined') {
       Map.camera.x = snapshot.mapCamera.x || Map.camera.x;
       Map.camera.y = snapshot.mapCamera.y || Map.camera.y;
@@ -172,6 +181,14 @@ function resetGameState() {
     Object.keys(scienceDiscoveries).forEach(function (scienceKey) {
       if (scienceDiscoveries[scienceKey] && typeof scienceDiscoveries[scienceKey].level !== 'undefined') {
         scienceDiscoveries[scienceKey].level = 0;
+      }
+    });
+  }
+
+  if (typeof capitalBuildings !== 'undefined') {
+    Object.keys(capitalBuildings).forEach(function (buildingKey) {
+      if (capitalBuildings[buildingKey] && typeof capitalBuildings[buildingKey].level !== 'undefined') {
+        capitalBuildings[buildingKey].level = 0;
       }
     });
   }
