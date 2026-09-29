@@ -1,7 +1,10 @@
+var DEFAULT_MAX_LEVEL = 10;
+
 var scienceDiscoveries = {
     scoutingSpeed: {
         name: 'Scouting speed',
         level: 0,
+        maxLevel: DEFAULT_MAX_LEVEL,
         baseCost: {
             gold: 10000,
             wood: 10000,
@@ -14,6 +17,7 @@ var capitalBuildings = {
     barracks: {
         name: 'Barracks',
         level: 0,
+        maxLevel: DEFAULT_MAX_LEVEL,
         baseCost: {
             gold: 250,
             wood: 200,
@@ -21,6 +25,18 @@ var capitalBuildings = {
         }
     }
 };
+
+function getMaxLevel(item) {
+    if (!item) {
+        return DEFAULT_MAX_LEVEL;
+    }
+
+    return typeof item.maxLevel === 'number' ? item.maxLevel : DEFAULT_MAX_LEVEL;
+}
+
+function isAtMaxLevel(item) {
+    return (item.level || 0) >= getMaxLevel(item);
+}
 
 function getResourceCostForLevel(baseCost, level) {
     if (!baseCost) {
@@ -52,7 +68,7 @@ function canAffordResourceCost(cost) {
 
 function getScienceCost(scienceKey) {
     var discovery = scienceDiscoveries[scienceKey];
-    if (!discovery || !discovery.baseCost) {
+    if (!discovery || !discovery.baseCost || isAtMaxLevel(discovery)) {
         return null;
     }
 
@@ -62,12 +78,12 @@ function getScienceCost(scienceKey) {
 
 function purchaseScience(scienceKey) {
     var discovery = scienceDiscoveries[scienceKey];
-    if (!discovery) {
+    if (!discovery || isAtMaxLevel(discovery)) {
         return false;
     }
 
     var cost = getScienceCost(scienceKey);
-    if (!canAffordResourceCost(cost)) {
+    if (!cost || !canAffordResourceCost(cost)) {
         return false;
     }
 
@@ -88,7 +104,7 @@ window.purchaseScience = purchaseScience;
 
 function getBuildingCost(buildingKey) {
     var building = capitalBuildings[buildingKey];
-    if (!building || !building.baseCost) {
+    if (!building || !building.baseCost || isAtMaxLevel(building)) {
         return null;
     }
 
@@ -97,12 +113,12 @@ function getBuildingCost(buildingKey) {
 
 function purchaseBuilding(buildingKey) {
     var building = capitalBuildings[buildingKey];
-    if (!building) {
+    if (!building || isAtMaxLevel(building)) {
         return false;
     }
 
     var cost = getBuildingCost(buildingKey);
-    if (!canAffordResourceCost(cost)) {
+    if (!cost || !canAffordResourceCost(cost)) {
         return false;
     }
 
@@ -130,14 +146,16 @@ function renderScientistDiscoveryPanel() {
     var entries = Object.keys(scienceDiscoveries).map(function (scienceKey) {
         var discovery = scienceDiscoveries[scienceKey];
         var cost = getScienceCost(scienceKey);
-        var canAfford = canAffordResourceCost(cost);
-        var buttonText = discovery.name + ' (Lv. ' + (discovery.level || 0) + ')';
+        var canAfford = cost ? canAffordResourceCost(cost) : false;
+        var isMaxed = isAtMaxLevel(discovery);
+        var buttonText = isMaxed ? discovery.name + ' (Maxed)' : discovery.name + ' (Lv. ' + (discovery.level || 0) + ')';
+        var costText = isMaxed ? 'Max level reached' : 'Cost: ' + cost.gold + ' Gold / ' + cost.wood + ' Wood / ' + cost.stone + ' Stone';
 
         return `
             <div class="science-discovery-item">
                 <div class="science-discovery-name">${discovery.name}</div>
-                <div class="science-discovery-meta">Level: ${discovery.level || 0} | Cost: ${cost.gold} Gold / ${cost.wood} Wood / ${cost.stone} Stone</div>
-                <button type="button" class="action-button" onclick="purchaseScience('${scienceKey}')" ${canAfford ? '' : 'disabled'}>
+                <div class="science-discovery-meta">Level: ${discovery.level || 0} / ${getMaxLevel(discovery)} | ${costText}</div>
+                <button type="button" class="action-button" onclick="purchaseScience('${scienceKey}')" ${isMaxed || !canAfford ? 'disabled' : ''}>
                     ${buttonText}
                 </button>
             </div>
@@ -158,14 +176,16 @@ function renderCapitalBuildingPanel() {
     var entries = Object.keys(capitalBuildings).map(function (buildingKey) {
         var building = capitalBuildings[buildingKey];
         var cost = getBuildingCost(buildingKey);
-        var canAfford = canAffordResourceCost(cost);
-        var buttonText = building.name + ' (Lv. ' + (building.level || 0) + ')';
+        var canAfford = cost ? canAffordResourceCost(cost) : false;
+        var isMaxed = isAtMaxLevel(building);
+        var buttonText = isMaxed ? building.name + ' (Maxed)' : building.name + ' (Lv. ' + (building.level || 0) + ')';
+        var costText = isMaxed ? 'Max level reached' : 'Cost: ' + cost.gold + ' Gold / ' + cost.wood + ' Wood / ' + cost.stone + ' Stone';
 
         return `
             <div class="science-discovery-item">
                 <div class="science-discovery-name">${building.name}</div>
-                <div class="science-discovery-meta">Level: ${building.level || 0} | Cost: ${cost.gold} Gold / ${cost.wood} Wood / ${cost.stone} Stone</div>
-                <button type="button" class="action-button" onclick="purchaseBuilding('${buildingKey}')" ${canAfford ? '' : 'disabled'}>
+                <div class="science-discovery-meta">Level: ${building.level || 0} / ${getMaxLevel(building)} | ${costText}</div>
+                <button type="button" class="action-button" onclick="purchaseBuilding('${buildingKey}')" ${isMaxed || !canAfford ? 'disabled' : ''}>
                     ${buttonText}
                 </button>
             </div>
