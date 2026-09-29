@@ -7,10 +7,10 @@ var RESOURCE_BASE = {
 };
 
 var playerResources = {
-    gold: 1200,
-    wood: 850,
-    stone: 480,
-    food: 665
+    gold: 0,
+    wood: 0,
+    stone: 0,
+    food: 0
 };
 
 function getOwnedVillageIncome(resourceName) {

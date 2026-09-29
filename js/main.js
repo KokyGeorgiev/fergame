@@ -157,6 +157,14 @@ if (typeof loadGameState === 'function') {
     loadGameState();
 }
 
+if (typeof updateResourceDisplay === 'function') {
+    updateResourceDisplay();
+}
+
+if (typeof updateCapitalIncomeSummary === 'function') {
+    updateCapitalIncomeSummary();
+}
+
 if (typeof renderScientistDiscoveryPanel === 'function') {
     renderScientistDiscoveryPanel();
 }
