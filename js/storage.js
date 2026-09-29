@@ -6,7 +6,7 @@ const VisibilityState = Object.freeze({
 
 const SAVE_KEY = "fallen-empire-save-v1";
 
-const worldData = {
+const DEFAULT_WORLD_DATA = {
   villages: [
     {
       name: "Crownhold",
@@ -65,6 +65,10 @@ const worldData = {
       resources: { gold: 100, wood: 100, stone: 100, food: 100 }
     }
   ]
+};
+
+const worldData = {
+  villages: cloneData(DEFAULT_WORLD_DATA.villages)
 };
 
 function cloneData(value) {
@@ -153,5 +157,61 @@ function loadGameState() {
   }
 }
 
+function resetGameState() {
+  if (typeof worldData !== 'undefined') {
+    worldData.villages = cloneData(DEFAULT_WORLD_DATA.villages);
+  }
+
+  if (typeof playerResources !== 'undefined') {
+    Object.keys(playerResources).forEach(function (resourceName) {
+      playerResources[resourceName] = 0;
+    });
+  }
+
+  if (typeof scienceDiscoveries !== 'undefined') {
+    Object.keys(scienceDiscoveries).forEach(function (scienceKey) {
+      if (scienceDiscoveries[scienceKey] && typeof scienceDiscoveries[scienceKey].level !== 'undefined') {
+        scienceDiscoveries[scienceKey].level = 0;
+      }
+    });
+  }
+
+  if (typeof GameNotifications !== 'undefined') {
+    GameNotifications.activeActions = [];
+    var actionList = document.getElementById('action-list');
+    if (actionList) {
+      actionList.innerHTML = '';
+    }
+  }
+
+  if (typeof localStorage !== 'undefined') {
+    localStorage.removeItem(SAVE_KEY);
+  }
+
+  if (typeof Map !== 'undefined' && typeof Map.generateWorldMap === 'function') {
+    Map.generateWorldMap('map-world', 50, 200);
+    if (typeof Map.centerCameraOnCapital === 'function') {
+      Map.centerCameraOnCapital('map-world', 50, 200);
+    }
+  }
+
+  if (typeof updateResourceDisplay === 'function') {
+    updateResourceDisplay();
+  }
+
+  if (typeof updateCapitalIncomeSummary === 'function') {
+    updateCapitalIncomeSummary();
+  }
+
+  if (typeof renderScientistDiscoveryPanel === 'function') {
+    renderScientistDiscoveryPanel();
+  }
+
+  if (typeof GameNotifications !== 'undefined' && typeof GameNotifications.add === 'function') {
+    GameNotifications.add('Game reset to the starting state.', 'warning');
+  }
+}
+
 window.saveGameState = saveGameState;
 window.loadGameState = loadGameState;
+window.resetGameState = resetGameState;

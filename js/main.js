@@ -190,6 +190,14 @@ window.manualSaveGame = function () {
     }
 };
 
+window.manualResetGame = function () {
+    if (window.confirm('Are you sure you want to reset your game?')) {
+        if (typeof resetGameState === 'function') {
+            resetGameState();
+        }
+    }
+};
+
 /*
 Map.generateWorldMap({
     containerId: "map",
