@@ -71,6 +71,34 @@ const worldData = {
   villages: cloneData(DEFAULT_WORLD_DATA.villages)
 };
 
+const DEFAULT_MAX_LEVEL = 10;
+
+const scienceDiscoveries = {
+  scoutingSpeed: {
+    name: 'Scouting speed',
+    level: 0,
+    maxLevel: DEFAULT_MAX_LEVEL,
+    baseCost: {
+      gold: 10000,
+      wood: 10000,
+      stone: 10000
+    }
+  }
+};
+
+const capitalBuildings = {
+  barracks: {
+    name: 'Barracks',
+    level: 0,
+    maxLevel: DEFAULT_MAX_LEVEL,
+    baseCost: {
+      gold: 250,
+      wood: 200,
+      stone: 150
+    }
+  }
+};
+
 function cloneData(value) {
   return JSON.parse(JSON.stringify(value));
 }

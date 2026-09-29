@@ -1,31 +1,3 @@
-var DEFAULT_MAX_LEVEL = 10;
-
-var scienceDiscoveries = {
-    scoutingSpeed: {
-        name: 'Scouting speed',
-        level: 0,
-        maxLevel: DEFAULT_MAX_LEVEL,
-        baseCost: {
-            gold: 10000,
-            wood: 10000,
-            stone: 10000
-        }
-    }
-};
-
-var capitalBuildings = {
-    barracks: {
-        name: 'Barracks',
-        level: 0,
-        maxLevel: DEFAULT_MAX_LEVEL,
-        baseCost: {
-            gold: 250,
-            wood: 200,
-            stone: 150
-        }
-    }
-};
-
 function getMaxLevel(item) {
     if (!item) {
         return DEFAULT_MAX_LEVEL;
