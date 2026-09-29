@@ -115,6 +115,17 @@ var GameNotifications = {
                     });
                 }
             }
+
+            if (action.type === 'train' && typeof action.metadata.unitKey === 'string') {
+                if (typeof trainTroop === 'function') {
+                    trainTroop(action.metadata.unitKey, {
+                        resume: true,
+                        remainingMs: action.remainingMs,
+                        durationMs: action.durationMs,
+                        actionId: action.id
+                    });
+                }
+            }
         });
     }
 };

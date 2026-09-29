@@ -99,6 +99,50 @@ const capitalBuildings = {
   }
 };
 
+const troopUnits = {
+  militia: {
+    name: 'Militia',
+    unlockBarracksLevel: 1,
+    cost: { gold: 60, wood: 35, stone: 10, food: 15 },
+    strength: 1
+  },
+  spearman: {
+    name: 'Spearman',
+    unlockBarracksLevel: 2,
+    cost: { gold: 120, wood: 80, stone: 60, food: 25 },
+    strength: 2
+  },
+  archer: {
+    name: 'Archer',
+    unlockBarracksLevel: 3,
+    cost: { gold: 180, wood: 120, stone: 80, food: 35 },
+    strength: 3
+  },
+  knight: {
+    name: 'Knight',
+    unlockBarracksLevel: 4,
+    cost: { gold: 260, wood: 170, stone: 130, food: 50 },
+    strength: 5
+  },
+  vanguard: {
+    name: 'Vanguard',
+    unlockBarracksLevel: 5,
+    cost: { gold: 360, wood: 220, stone: 180, food: 75 },
+    strength: 7
+  }
+};
+
+const playerArmy = {
+  total: 0,
+  units: {
+    militia: 0,
+    spearman: 0,
+    archer: 0,
+    knight: 0,
+    vanguard: 0
+  }
+};
+
 function cloneData(value) {
   return JSON.parse(JSON.stringify(value));
 }
@@ -113,6 +157,8 @@ function saveGameState() {
     playerResources: cloneData(playerResources),
     scienceDiscoveries: cloneData(scienceDiscoveries),
     capitalBuildings: cloneData(capitalBuildings),
+    troopUnits: cloneData(troopUnits),
+    playerArmy: cloneData(playerArmy),
     mapCamera: (typeof Map !== 'undefined' && Map.camera) ? {
       x: Map.camera.x,
       y: Map.camera.y,
@@ -176,6 +222,15 @@ function loadGameState() {
       });
     }
 
+    if (snapshot.playerArmy && typeof playerArmy !== 'undefined') {
+      playerArmy.total = snapshot.playerArmy.total || 0;
+      Object.keys(playerArmy.units).forEach(function (unitKey) {
+        if (typeof snapshot.playerArmy.units === 'object' && typeof snapshot.playerArmy.units[unitKey] !== 'undefined') {
+          playerArmy.units[unitKey] = snapshot.playerArmy.units[unitKey];
+        }
+      });
+    }
+
     if (snapshot.mapCamera && typeof Map !== 'undefined') {
       Map.camera.x = snapshot.mapCamera.x || Map.camera.x;
       Map.camera.y = snapshot.mapCamera.y || Map.camera.y;
@@ -218,6 +273,13 @@ function resetGameState() {
       if (capitalBuildings[buildingKey] && typeof capitalBuildings[buildingKey].level !== 'undefined') {
         capitalBuildings[buildingKey].level = 0;
       }
+    });
+  }
+
+  if (typeof playerArmy !== 'undefined') {
+    playerArmy.total = 0;
+    Object.keys(playerArmy.units).forEach(function (unitKey) {
+      playerArmy.units[unitKey] = 0;
     });
   }
 

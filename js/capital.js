@@ -172,6 +172,7 @@ window.renderCapitalBuildingPanel = renderCapitalBuildingPanel;
 function renderCapitalPanels() {
     renderScientistDiscoveryPanel();
     renderCapitalBuildingPanel();
+    renderBarracksTrainingPanel();
 }
 
 window.renderCapitalPanels = renderCapitalPanels;

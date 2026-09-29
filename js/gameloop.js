@@ -79,6 +79,12 @@ function updateResourceDisplay() {
         }
     });
 
+    var troopsElement = document.getElementById('resource-troops');
+    if (troopsElement) {
+        var troopCapacity = 50 + ((capitalBuildings && capitalBuildings.barracks && capitalBuildings.barracks.level) || 0) * 10;
+        troopsElement.textContent = 'Troops: ' + (playerArmy.total || 0) + '/' + troopCapacity;
+    }
+
     if (typeof renderCapitalPanels === 'function') {
         renderCapitalPanels();
     } else if (typeof renderScientistDiscoveryPanel === 'function') {
