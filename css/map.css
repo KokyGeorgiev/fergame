@@ -1,5 +1,14 @@
 /* === MAP CONTAINER === */
+
+#page-map {
+    min-height: 500px;
+}
+
 #map-container {
+    width: 100%;
+    min-height: 500px;
+    overflow: hidden;
+    margin: 0 auto;
     touch-action: none;
     position: relative;
     width: 600px;

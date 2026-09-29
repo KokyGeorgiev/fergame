@@ -47,17 +47,6 @@ div#footer {
     width: 100%;
 }
 
-#page-map {
-    min-height: 500px;
-}
-
-#map-container {
-    width: 100%;
-    min-height: 500px;
-    overflow: hidden;
-    margin: 0 auto;
-}
-
 #side-panels {
     display: flex;
     align-items: flex-start;
