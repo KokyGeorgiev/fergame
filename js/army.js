@@ -44,7 +44,13 @@ function getTrainingDuration(unitKey) {
     var requiredLevel = unit.unlockBarracksLevel || 1;
     var baseDuration = 15000 + (strengthFactor * 12000);
     var unlockExponent = Math.pow(1.7, requiredLevel - 1);
-    return Math.round(baseDuration * unlockExponent);
+    var ownedFortresses = typeof worldData !== 'undefined' && Array.isArray(worldData.villages)
+        ? worldData.villages.filter(function (village) {
+            return village.level === 3 && village.state === VisibilityState.OWNED;
+        }).length
+        : 0;
+    var fortressMultiplier = Math.pow(0.9, ownedFortresses);
+    return Math.round(baseDuration * unlockExponent * fortressMultiplier);
 }
 
 function trainTroop(unitKey, resumeState) {
