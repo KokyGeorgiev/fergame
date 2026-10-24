@@ -18,9 +18,24 @@ ARMY:
     - Mad Scientist for Strength upgrade per unit
 
 VILLAGE CAPTURING:
-    - village strength
+    - village strength - this would have to adapt to the new idea of villages into towns
     - combat system
     - travel time for capturing action
+
+VILLAGES:
+    - spawn only villages
+    - combine 3 villages into town
+    - 3 towns into outposts
+    - limit scouting range, so next outpost would allow progression
+    - need to plan possitining of villages and routes of progression
+
+MAD SCIENTIST:
+    - Send him to an expedition
+    - Expeditions return science resources
+    - Expeditions can lead to finding clues to an unknown research
+    - Scientist has a book with science findings
+    - mini-game for science unlocking (resource "linking")
+    - mini-game for science improving/upgrading (level mutations)
 
 UI:
     - collapsing sections in Home and Capital
