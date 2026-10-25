@@ -32,10 +32,10 @@
                     <button type="button" class="action-button" onclick="manualSaveGame()">Save Game</button>
                     <button type="button" class="action-button" onclick="manualResetGame()">Reset Game</button>
                     <br /><br />
-                    <div class="content-card">
-                        <div class="content-card-title color-2">
+                    <details class="content-card" open>
+                        <summary class="content-card-title color-2">
                             What is Lorem Ipsum?
-                        </div>
+                        </summary>
                         <div class="content-card-body color-5">
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
                             been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
@@ -45,44 +45,44 @@
                             passages, and more recently with desktop publishing software like Aldus PageMaker including
                             versions of Lorem Ipsum.
                         </div>
-                    </div>
-                    <div class="content-card">
-                        <div class="content-card-title color-2">
+                    </details>
+                    <details class="content-card" open>
+                        <summary class="content-card-title color-2">
                             Income Summary
-                        </div>
+                        </summary>
                         <div class="content-card-body color-5" id="capital-income-summary">
                             Loading income...
                         </div>
-                    </div>
+                    </details>
                 </div>
                 <div class="page-content color-4" id="page-capital">
                     Welcome to the game!<br />
                     CAPITAL
                     <br /><br />
-                    <div class="content-card">
-                        <div class="content-card-title color-2">
+                    <details class="content-card" open>
+                        <summary class="content-card-title color-2">
                             City Buildings
-                        </div>
+                        </summary>
                         <div class="content-card-body color-5" id="capital-buildings">
                             Loading buildings...
                         </div>
-                    </div>
-                    <div class="content-card">
-                        <div class="content-card-title color-2">
+                    </details>
+                    <details class="content-card" id="barracks-training-card" open>
+                        <summary class="content-card-title color-2">
                             Barracks Training
-                        </div>
+                        </summary>
                         <div class="content-card-body color-5" id="barracks-training">
                             Loading troop training...
                         </div>
-                    </div>
-                    <div class="content-card">
-                        <div class="content-card-title color-2">
+                    </details>
+                    <details class="content-card" open>
+                        <summary class="content-card-title color-2">
                             Mad Scientist
-                        </div>
+                        </summary>
                         <div class="content-card-body color-5" id="scientist-discoveries">
                             Loading discoveries...
                         </div>
-                    </div>
+                    </details>
                 </div>
                 <div class="page-content color-4" id="page-map">
                     <div id="map-container">

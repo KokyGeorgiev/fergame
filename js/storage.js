@@ -310,7 +310,9 @@ function resetGameState() {
     updateCapitalIncomeSummary();
   }
 
-  if (typeof renderScientistDiscoveryPanel === 'function') {
+  if (typeof renderCapitalPanels === 'function') {
+    renderCapitalPanels();
+  } else if (typeof renderScientistDiscoveryPanel === 'function') {
     renderScientistDiscoveryPanel();
   }
 

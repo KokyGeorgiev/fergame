@@ -157,10 +157,24 @@ div#footer {
     padding: 10px;
 }
 .content-card-title {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-weight: bold;
     font-size: 1.2em;
     letter-spacing: 0.1em;
+    cursor: pointer;
+    list-style: none;
+}
+.content-card-title::-webkit-details-marker {
+    display: none;
+}
+.content-card-title::after {
+    content: "-";
+    margin-left: 12px;
+}
+.content-card:not([open]) .content-card-title::after {
+    content: "+";
 }
 .content-card-subtitle {
     font-weight: normal;

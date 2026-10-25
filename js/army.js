@@ -10,6 +10,11 @@ function renderBarracksTrainingPanel() {
     }
 
     var barracksLevel = (capitalBuildings.barracks && capitalBuildings.barracks.level) || 0;
+    var trainingCard = document.getElementById('barracks-training-card');
+    if (trainingCard) {
+        trainingCard.hidden = barracksLevel < 1;
+    }
+
     var entries = Object.keys(troopUnits).map(function (unitKey) {
         var unit = troopUnits[unitKey];
         var unlocked = barracksLevel >= (unit.unlockBarracksLevel || 1);
