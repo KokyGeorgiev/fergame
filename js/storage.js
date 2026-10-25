@@ -96,6 +96,16 @@ const capitalBuildings = {
       wood: 200,
       stone: 150
     }
+  },
+  laboratory: {
+    name: 'Laboratory',
+    level: 0,
+    maxLevel: 1,
+    baseCost: {
+      gold: 5000,
+      wood: 5000,
+      stone: 5000
+    }
   }
 };
 

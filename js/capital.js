@@ -115,6 +115,12 @@ function renderScientistDiscoveryPanel() {
         return;
     }
 
+    var laboratoryLevel = (capitalBuildings.laboratory && capitalBuildings.laboratory.level) || 0;
+    var scientistCard = document.getElementById('scientist-discoveries-card');
+    if (scientistCard) {
+        scientistCard.hidden = laboratoryLevel < 1;
+    }
+
     var entries = Object.keys(scienceDiscoveries).map(function (scienceKey) {
         var discovery = scienceDiscoveries[scienceKey];
         var cost = getScienceCost(scienceKey);
@@ -150,16 +156,19 @@ function renderCapitalBuildingPanel() {
         var cost = getBuildingCost(buildingKey);
         var canAfford = cost ? canAffordResourceCost(cost) : false;
         var isMaxed = isAtMaxLevel(building);
-        var buttonText = isMaxed ? building.name + ' (Maxed)' : building.name + ' (Lv. ' + (building.level || 0) + ')';
+        var buttonText = building.name + ' (Lv. ' + (building.level || 0) + ')';
         var costText = isMaxed ? 'Max level reached' : 'Cost: ' + cost.gold + ' Gold / ' + cost.wood + ' Wood / ' + cost.stone + ' Stone';
+        var buttonMarkup = isMaxed ? '' : `
+            <button type="button" class="action-button" onclick="purchaseBuilding('${buildingKey}')" ${!canAfford ? 'disabled' : ''}>
+                ${buttonText}
+            </button>
+        `;
 
         return `
             <div class="science-discovery-item">
                 <div class="science-discovery-name">${building.name}</div>
                 <div class="science-discovery-meta">Level: ${building.level || 0} / ${getMaxLevel(building)} | ${costText}</div>
-                <button type="button" class="action-button" onclick="purchaseBuilding('${buildingKey}')" ${isMaxed || !canAfford ? 'disabled' : ''}>
-                    ${buttonText}
-                </button>
+                ${buttonMarkup}
             </div>
         `;
     });
